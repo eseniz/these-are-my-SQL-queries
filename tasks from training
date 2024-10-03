@@ -7,3 +7,43 @@ SELECT customer_id,
 FROM invoice
 WHERE EXTRACT(WEEK FROM CAST(invoice_date AS timestamp)) IN (5, 7 , 10, 33, 48)
       and customer_id BETWEEN 20 AND 50;
+
+-- Выгрузить из таблицы всю информацию о заказах, оформленных первого числа каждого месяца
+SELECT * 
+FROM invoice
+WHERE (EXTRACT(DAY FROM CAST(invoice_date as timestamp)) = 1);
+
+-- Выгрузитm адреса электронной почты сотрудников из города Калгари (англ. Calgary), которых наняли на работу в 2002 году.
+SELECT email
+FROM staff
+WHERE city = 'Calgary' 
+       and EXTRACT(YEAR FROM CAST(hire_date as timestamp)) = '2002';
+
+-- Из таблицы выгрузить поле с городами оформления счёта. Выгрузить только те записи, в которых на месте индекса стоит пропуск.
+-- Исключить из выдачи записи с пропусками в поле штата покупки. Выберать записи, в которых сумма заказа не ниже 15 долларов.
+SELECT billing_city
+FROM invoice
+WHERE billing_postal_code IS NULL
+       and billing_state IS NOT NULL
+       and total >= 15.00;
+
+-- Найnb треки длиннее 250000 миллисекунд, в названии которых есть слово Moon, но автор трека не указан.
+-- Выгрузить номера альбомов, в которых находятся выбранные треки.
+SELECT album_id
+FROM track
+WHERE milliseconds > 250000
+       and name LIKE '%Moon%'
+       and composer IS NULL;
+
+-- Найnb покупателей, которые не указали место работы, регион проживания, телефон и факс. Отобразитm их имена, фамилии и страны проживания.
+SELECT first_name,
+    last_name,
+    country
+FROM client
+WHERE company IS NULL 
+       and phone IS NULL
+       and fax IS NULL
+       and state IS NULL;
+
+
+
