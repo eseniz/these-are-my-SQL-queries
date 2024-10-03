@@ -1,0 +1,9 @@
+-- задача была в выгрузке и фильтрации полей. нужно выгрузить инфу о заказах с месяцем и числом недели. отфильтровать по 5, 7, 10, 33, 48 недели и по айди между 20 и 50 (включая их)
+SELECT customer_id,
+       invoice_date,
+       total,
+       DATE_TRUNC('month', CAST(invoice_date AS timestamp)),
+       EXTRACT(WEEK FROM CAST(invoice_date AS timestamp))
+FROM invoice
+WHERE EXTRACT(WEEK FROM CAST(invoice_date AS timestamp)) IN (5, 7 , 10, 33, 48)
+      and customer_id BETWEEN 20 AND 50;
