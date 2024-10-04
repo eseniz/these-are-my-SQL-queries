@@ -35,15 +35,28 @@ WHERE milliseconds > 250000
        and name LIKE '%Moon%'
        and composer IS NULL;
 
--- Найnb покупателей, которые не указали место работы, регион проживания, телефон и факс. Отобразитm их имена, фамилии и страны проживания.
+-- Найти покупателей, которые не указали место работы, регион проживания, телефон и факс. Отобразитm их имена, фамилии и страны проживания.
 SELECT first_name,
-    last_name,
-    country
+       last_name,
+       country
 FROM client
 WHERE company IS NULL 
        and phone IS NULL
        and fax IS NULL
        and state IS NULL;
+
+--Выделить категории в таблице, которая хранит информацию о сотрудниках. Выведите на экран имена, фамилии и должность сотрудника. Категории нужно выделить на основе значений в поле title — оно содержит информацию о должности сотрудника:
+-- отдел продаж, разработка, поддержка
+SELECT last_name,
+       first_name,
+       title, 
+              CASE 
+                 WHEN title LIKE '%Manager%' and title NOT LIKE '%IT%' THEN 'отдел продаж'
+                 WHEN title LIKE '%IT%' THEN 'разработка'
+                 WHEN title LIKE '%Support%' THEN 'поддержка'
+              END 
+FROM staff;
+
 
 
 
