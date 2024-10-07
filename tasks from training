@@ -57,6 +57,23 @@ SELECT last_name,
               END 
 FROM staff;
 
+-- Посчитать общую выручку, количество заказов, среднюю выручку для каждого города США.
+SELECT billing_city,
+       SUM(total),
+       COUNT(*),
+       AVG(total)
+FROM invoice
+WHERE billing_country = 'USA'
+GROUP BY billing_city;
+
+-- Проверить, какую выручку в среднем приносит каждый покупатель. Выгрузить общую сумму выручки, число уникальных покупателей и среднюю выручку на  уникального пользователя для страны США. Сгруппировав данные по неделе заказа.
+SELECT DATE_TRUNC('week', CAST(invoice_date AS TIMESTAMP)) as week, 
+       SUM(total), 
+       COUNT(DISTINCT(customer_id)), 
+       SUM(total)/COUNT(DISTINCT(customer_id)) as average
+FROM invoice 
+WHERE billing_country = 'USA'
+GROUP BY week;
 
 
 
